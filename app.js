@@ -23,6 +23,13 @@ var bodyParser = require('body-parser');
 var mailgun = require('mailgun-js')({
   apiKey: 'key-56a7bf13d8ed6a152a99c865511858bf', domain: 'sandbox110755d9889f4998af1d0aafd5911d13.mailgun.org'
 });
+var livereload = require('livereload');
+
+// Livereload
+var server = livereload.createServer({
+  exts: ['.css', '.hbs'],
+});
+server.watch([__dirname + '/views']);
 
 var app = express();
 
@@ -31,6 +38,7 @@ app.engine('.hbs',exphbs({extname: ".hbs"}));
 app.set('view engine','.hbs')
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 //homepage
 app.get("/", function(request,response){
@@ -142,4 +150,5 @@ mailgun.messages().send(emailOptions, function (error, response) {
   });
 }
 });
+
 
